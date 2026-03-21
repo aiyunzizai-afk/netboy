@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Chat · Vibe Coding</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-900 text-white min-h-screen flex flex-col">
+<div class="max-w-3xl mx-auto w-full px-4 py-6 flex-1 overflow-y-auto" id="messages"></div>
+<div class="sticky bottom-0 bg-zinc-900 border-t border-zinc-800 p-4">
+<div class="max-w-3xl mx-auto flex gap-2">
+<input id="input" type="text" placeholder="输入消息..." class="flex-1 px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+<button id="send" class="px-5 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-medium">发送</button>
+</div>
+</div>
+
+<script>
+const messagesEl = document.getElementById('messages');
+const input = document.getElementById('input');
+const sendBtn = document.getElementById('send');
+
+const answers = [
+"我在呢，你说～",
+"这个问题有点意思，让我想想…",
+"收到！我已经理解你的意思了。",
+"你可以继续说，我听着呢。",
+"哈哈，这个想法不错！",
+"我帮你记下来啦。",
+"嗯，有道理，我认同。",
+"你可以说得再详细一点哦。",
+"好的，我明白了。",
+"我随时都在，有问题尽管问。"
+];
+
+function addMessage(text, isUser = false) {
+const div = document.createElement('div');
+div.className = isUser
+? 'ml-auto bg-blue-600 px-4 py-3 rounded-xl max-w-[80%] my-2'
+: 'mr-auto bg-zinc-800 px-4 py-3 rounded-xl max-w-[80%] my-2';
+div.textContent = text;
+messagesEl.appendChild(div);
+messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function aiReply() {
+setTimeout(() => {
+const reply = answers[Math.floor(Math.random() * answers.length)];
+addMessage(reply);
+}, 600);
+}
+
+function send() {
+const text = input.value.trim();
+if (!text) return;
+addMessage(text, true);
+input.value = '';
+aiReply();
+}
+
+sendBtn.onclick = send;
+input.addEventListener('keypress', e => e.key === 'Enter' && send());
+</script>
+</body>
+</html>
